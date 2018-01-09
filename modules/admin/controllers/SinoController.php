@@ -45,8 +45,8 @@ class SinoController extends AppadminController
 			$prepare_string = \yii\helpers\StringHelper::truncateWords($prepare_string, 350, '...');
 			if ( mb_strlen($prepare_string) > 2900) {
                 $prepare_string = \yii\helpers\StringHelper::truncate($prepare_string, 2900, '...');
-                     //truncate ( $string, $length, $suffix = '...', $encoding = null, $asHtml = false )
             }
+            /* todo-dis delete comments*/
 			//debug($prepare_string );
 			//debug($_SESSION['user'] );
 			//debug($_SESSION);
@@ -54,15 +54,9 @@ class SinoController extends AppadminController
 			
 			$_SESSION['text'] = $prepare_string;
 			$yaTranslate = CreateSinonimizingString::getInstance();
-			//debug($yaTranslate);	
 			$ready_text = $yaTranslate->createSinonimazing();		
-			//debug($ready_text);
-			//die(0);
-			//$ready_text = $ready_text.' Опубликовано по материалам сайта <a href="iron-systems.ru" title="Айрон-Системс" >Айрон-Системс</a>.';
 			$_SESSION['text'] = $ready_text;
-			//debug($_SESSION);	
-			//debug($_POST);	
-			//die(0);
+
 		} 
 		
 		$test = '';		
