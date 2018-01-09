@@ -40,7 +40,7 @@ class SinoController extends AppadminController
 			$prepare_string = preg_replace("/\s{2,}/", "", $prepare_string);
 			$prepare_string = \yii\helpers\StringHelper::truncateWords($prepare_string, 350, '...');
 			if ( mb_strlen ($prepare_string) > 4500) {
-                $prepare_string = \yii\helpers\StringHelper::truncate($prepare_string, 3400, '...')
+                $prepare_string = \yii\helpers\StringHelper::truncate($prepare_string, 3400, '...');
                      //truncate ( $string, $length, $suffix = '...', $encoding = null, $asHtml = false )
             }
 			//debug($prepare_string );
