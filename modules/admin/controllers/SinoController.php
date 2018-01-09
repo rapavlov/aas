@@ -47,11 +47,7 @@ class SinoController extends AppadminController
                 $prepare_string = \yii\helpers\StringHelper::truncate($prepare_string, 2900, '...');
             }
             /* todo-dis delete comments*/
-			//debug($prepare_string );
-			//debug($_SESSION['user'] );
-			//debug($_SESSION);
-			//die(0);
-			
+
 			$_SESSION['text'] = $prepare_string;
 			$yaTranslate = CreateSinonimizingString::getInstance();
 			$ready_text = $yaTranslate->createSinonimazing();		
