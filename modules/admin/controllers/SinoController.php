@@ -82,7 +82,7 @@ class SinoController extends AppadminController
 					$url = 'https://accounts.google.com/o/oauth2/token';				
 				}elseif(isset($_GET['code'])){					
 					$_SESSION['code'] = $_GET['code'];
-					$_SESSION['text'] = $_SESSION['text'].' Опубликовано по материалам сайта <a href="iron-systems.ru" title="Айрон-Системс" >Айрон-Системс</a>.';
+					$_SESSION['text'] = $_SESSION['text'].' Опубликовано по материалам сайта <a href="http://iron-systems.ru" title="Айрон-Системс" >Айрон-Системс</a>.';
 					$result_posting = $blog->posting();
 					$_SESSION['result'] = 'Материал '.$_SESSION['title']. ' опубликован';
 					unset($_SESSION['text']);
