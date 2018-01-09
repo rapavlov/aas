@@ -1,0 +1,107 @@
+<?php
+
+/* @var $this \yii\web\View */
+/* @var $content string */
+
+use app\widgets\Alert;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
+use app\assets\AppAsset;
+
+AppAsset::register($this);
+?>
+<?php $this->beginPage() ?>
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>">
+<head>
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
+</head>
+<body>
+<?php $this->beginBody() ?>
+
+<div class="wrap">
+    <?php
+   /* NavBar::begin([
+        'brandLabel' => Yii::$app->name,
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-inverse navbar-fixed-top',
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Login', 'url' => ['/admin/default']]
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
+        ],
+    ]);
+    NavBar::end();
+    */?>
+
+    <div class="container">
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+        <?= Alert::widget() ?>
+        <?php if (Yii::$app->controller->id == 'articles'){?>
+		<div class="col-lg-3 col-md-3 col-sm-4">
+					<div class="left_sidebar">
+						<div class="single_widget">
+							<h2> </h2>
+							<!--ul class="post_nav"-->
+							<ul class="list-group">
+								<?php //echo "MENU ECHO";?>
+								<?php echo \app\components\ArticlesMenuWidget::widget(['tpl'=>'menu', 'controller_id' =>Yii::$app->controller->id]);?>
+								<?php /*echo LeftMenuWidgets::widget([         
+									'options' => [
+									'class' => 'menu',
+									],
+									]); */?>
+              <!--li>
+                <figure class="effect-lily"><a href="categories/<?//=$avatar_category[category_url]?>"></a>
+                  <figcaption><a href="categories/<?//=$avatar_category[category_url]?>"><?//=$avatar_category[category_name]?></a></figcaption>
+                </figure>
+              </li-->
+									<?php //} ?>
+							</ul>
+						</div>          
+					</div>          
+				</div>
+        <?php } ?>
+        <?= $content ?>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="pull-left">&copy; АлтайАльпСервис <?= date('Y') ?></p>
+
+        <p class="pull-right"><?php ?></p>
+    </div>
+</footer>
+
+<?php $this->endBody() ?>
+</body>
+</html>
+<?php $this->endPage() ?>
