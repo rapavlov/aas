@@ -28,6 +28,7 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				'user_password' =>'231004ar',
 				'BlogID' =>'7306600015304466383',		
 				'scopes' =>'https://www.googleapis.com/auth/blogger',	
+				'BlogUrl' =>'https://beyoncekcarter.blogspot.ru/',
 			],//blogID=8086328714252272603
 		'2' => 
 			[
@@ -38,8 +39,9 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				//ya29.GlwPBU2uqp5o3P7Hm4f7RNB-mtuoss39Hm3AuV2lKexR-aGXCjRbgo4sdfYTyls-KhSsHTs9KS3O4G7wD_A87zhXSOrnQlmQxEuhycrH7hiJzb690NH0pWUl_6ykpQ
 				'user_password' =>'231004ar',
 				'BlogID' =>'8086328714252272603',		
-				'scopes' =>'https://www.googleapis.com/auth/blogger',	
-			],
+				'scopes' =>'https://www.googleapis.com/auth/blogger',
+                'BlogUrl' =>'https://beyoncekcarter.blogspot.ru/',
+            ],
 		'3' => 
 			[
 				'user_email' => 'sergeyvorobey041269@gmail.com',
@@ -49,8 +51,24 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				//ya29.GlwPBU2uqp5o3P7Hm4f7RNB-mtuoss39Hm3AuV2lKexR-aGXCjRbgo4sdfYTyls-KhSsHTs9KS3O4G7wD_A87zhXSOrnQlmQxEuhycrH7hiJzb690NH0pWUl_6ykpQ
 				'user_password' =>'231004ar',
 				'BlogID' =>'2538160879893028716',		
-				'scopes' =>'https://www.googleapis.com/auth/blogger',	
-			],
+				'scopes' =>'https://www.googleapis.com/auth/blogger',
+                'BlogUrl' =>'https://beyoncekcarter.blogspot.ru/',
+            ],
+        '4' =>
+            [
+                'user_email' => 'rblackwood966@gmail.com',// При добавлении нового пользователя изменить поле
+                'user_password' =>'231004ar',// При добавлении нового пользователя изменить поле
+                'BlogID' =>'3820422997338294477',// При добавлении нового пользователя изменить поле
+                'BlogUrl' =>'https://webblackside.blogspot.ru/',// При добавлении нового пользователя изменить поле
+
+                'ClientId' =>'681565577024-0m0fvc1q8ioumrilju84cuqu8uiptphp.apps.googleusercontent.com',
+                'ClientSecret' =>'FFzl61pTuSVZJK2KETlRuQWJ',
+                'AccessToken' =>'ya29.GlwPBU2uqp5o3P7Hm4f7RNB-mtuoss39Hm3AuV2lKexR-aGXCjRbgo4sdfYTyls-KhSsHTs9KS3O4G7wD_A87zhXSOrnQlmQxEuhycrH7hiJzb690NH0pWUl_6ykpQ',
+                //ya29.GlwPBU2uqp5o3P7Hm4f7RNB-mtuoss39Hm3AuV2lKexR-aGXCjRbgo4sdfYTyls-KhSsHTs9KS3O4G7wD_A87zhXSOrnQlmQxEuhycrH7hiJzb690NH0pWUl_6ykpQ
+
+                'scopes' =>'https://www.googleapis.com/auth/blogger',
+
+            ],
 	];
 
     private $_user = false;	
@@ -111,10 +129,10 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				$client -> setIncludeGrantedScopes(true); // incremental auth 
 				$client -> addScope($this->user_array[$_SESSION['user']]['scopes']);///1
 				
-				//debug($params);	
-				//debug($_SESSION);	
-				//debug($_POST);				
-				//die(0);
+				/*debug($params);
+				debug($_SESSION);
+				debug($_POST);
+				die(0);*/
 					
 				$client->authenticate($_GET['code']);
 				//$client->authenticate($_SESSION['code']);
@@ -123,7 +141,7 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				
 				
 				$service = new \Google_Service_Blogger($client);
-				$blog      = $service->blogs->getByUrl('https://beyoncekcarter.blogspot.ru/');				
+				$blog      = $service->blogs->getByUrl($this->user_array[$_SESSION['user']]['BlogUrl']);
 				$blogId = $blog->getId();
 				$post = $service->posts->listPosts($blogId);				
 				foreach ($post['items'] as $post){
@@ -136,8 +154,8 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				$array_words[$random_index] = "<a href='$url'>{$array_words[$random_index]}</a>";
 				$_SESSION['text'] = implode(' ', $array_words);
 				
-				//debug($_SESSION['text']);
-				//die(0);
+				/*debug($_SESSION['text']);
+				die(0);*/
 				//debug($post['items']);
 				/*			
 				$blogName  = $blog->getName();
@@ -149,15 +167,21 @@ class Bloggerapi extends Model   ///http://spartanets.ru/post/197.html api setti
 				$postData = new \Google_Service_Blogger_Post();
 				$postData->setTitle($_SESSION['title']);
 				$postData->setContent($_SESSION['text']);
-				
+                /*debug($_SESSION);
+                debug($_POST);
+                debug($params);
+                debug($title);
+                debug($new);
+                die(0);*/
 				$service = new \Google_Service_Blogger($client);
 				$new = $service->posts->insert($this->user_array[$_SESSION['user']]['BlogID'], $postData);//1
 				
-				//debug($_SESSION);	
-				//debug($_POST);
-				//debug($params);	
-				//debug($title);					
-				//die(0);
+				/*debug($_SESSION);
+				debug($_POST);
+				debug($params);
+				debug($title);
+				debug($new);
+				die(0);*/
 				
 				if ($new) {
 					$response['status'] = true;					

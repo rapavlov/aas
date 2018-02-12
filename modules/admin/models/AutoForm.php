@@ -11,7 +11,7 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class SinoForm extends Model
+class AutoForm extends Model
 {
     public $text;
     public $title;
@@ -22,6 +22,7 @@ class SinoForm extends Model
     public $suffiksurl;
     public $begindiapazon;
     public $enddiapazon;
+    public $format;
 
    // public $remember = true;
 
@@ -40,29 +41,31 @@ class SinoForm extends Model
             //['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             //['password', 'validatePassword'],
-			[ ['title'], 'filter', 'filter' => 'trim'],
-			[ ['text'], 'filter', 'filter' => 'trim'],           
+			/*[ ['title'], 'filter', 'filter' => 'trim'],
+			[ ['text'], 'filter', 'filter' => 'trim'],  */
 			[ ['user'], 'filter', 'filter' => 'trim'],
 
             ['textbyurl', 'boolean'],
             [ ['beginparsurl'], 'filter', 'filter' => 'trim'],
             [ ['begindiapazon'], 'filter', 'filter' => 'number'],
             [ ['enddiapazon'], 'filter', 'filter' => 'number'],
-            [ ['suffikssurl'], 'filter', 'filter' => 'trim'],
+            [ ['suffiksurl'], 'filter', 'filter' => 'trim'],
             [ ['dropurl'], 'filter', 'filter' => 'trim'],
+            [ ['format'], 'filter', 'filter' => 'trim'],
         ];
     }
 
 	public function attributeLabels(){
 		return [
-			'title' => 'Заголовок',
-			'text' => 'Текст',
+			/*'title' => 'Заголовок',
+			'text' => 'Текст',*/
 			'user' => 'Пользователь',
 			'beginparsurl' => 'Базовая часть url для парсинга',
 			'begindiapazon' => 'Начало диапазона парсинга',
 			'enddiapazon' => 'Начало диапазона парсинга',
-			'suffikssurl' => 'Суффикс url для парсинга',
+			'suffiksurl' => 'Суффикс url для парсинга',
 			'dropurl' => 'Выбор url для создания ссылки',
+			'format' => 'Формат диапазона',
 			/*'password' => 'Пароль',
 			'rememberMe' => 'Запомнить меня',*/
 		];
