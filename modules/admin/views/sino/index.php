@@ -129,10 +129,20 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     );
     echo $form->field($autoform, 'dropurl')->dropDownList([
-        'livenka.ru/index.php/biznes/produktsiya/toplivorazdatochnye-kolonki' => 'livenka.ru/index.php/biznes/produktsiya/toplivorazdatochnye-kolonki',
-        'www.azs-info.ru/toplivorazdatochnye-kolonki_2.html' => 'www.azs-info.ru/toplivorazdatochnye-kolonki_2.html',
-        'www.vengo-trade.ru/catalog/oborudovanie-dlya-azs/toplivorazdatochnye-kolonki/'=>'www.vengo-trade.ru/catalog/oborudovanie-dlya-azs/toplivorazdatochnye-kolonki/',
-        'www.a-3-c.ru/0/0/3/1/18/18A13/trk-azs-40-v421.html'=>'www.a-3-c.ru/0/0/3/1/18/18A13/trk-azs-40-v421.html'
+        'http://livenka.ru/index.php/biznes/produktsiya/toplivorazdatochnye-kolonki' =>
+            'http://livenka.ru/index.php/biznes/produktsiya/toplivorazdatochnye-kolonki',
+        'https://gazovik-lpg.ru/cat/trk/' =>
+            'https://gazovik-lpg.ru/cat/trk/',
+        'http://lpgroup.ru/katalog/toplivorazdatochniekolonki/trkgilbarco/' =>
+            'http://lpgroup.ru/katalog/toplivorazdatochniekolonki/trkgilbarco/',
+        'http://www.azs-info.ru/toplivorazdatochnye-kolonki_2.html' =>
+            'http://www.azs-info.ru/toplivorazdatochnye-kolonki_2.html',
+        'http://www.vengo-trade.ru/catalog/oborudovanie-dlya-azs/toplivorazdatochnye-kolonki/'=>
+            'http://www.vengo-trade.ru/catalog/oborudovanie-dlya-azs/toplivorazdatochnye-kolonki/',
+        'http://www.a-3-c.ru/0/0/3/1/18/18A13/trk-azs-40-v421.html'=>
+            'http://www.a-3-c.ru/0/0/3/1/18/18A13/trk-azs-40-v421.html',
+        'http://www.benza.ru/catalog/mobile-station/' =>
+            'http://www.benza.ru/catalog/mobile-station/'
     ],
         [
             'prompt' => 'Выбор url для создания ссылки',

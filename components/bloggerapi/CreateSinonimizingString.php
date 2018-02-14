@@ -55,8 +55,24 @@ class CreateSinonimizingString
 	public function get() {
 		// ...
 	}
-	
-	public function createSinonimazing(){ 
+
+    public function createSinonimazingForAutoposting($innerText){
+
+        $innerLang = 'ru';
+        $innerLang = $this->prepareLangString($innerLang);
+        $key = $this->apiKeyToTranslate[array_rand($this->apiKeyToTranslate)];
+        foreach ($this->langString as $lang){
+            $text = urlencode($innerText);
+            $url = $this->baseUrlToTranslate.'key='.$key.'&text='.$text.'&lang='.$lang.'&format=plain'.'&options=1';
+            $result = file_get_contents($url); // получаем данные в JSON: {"code":200,"lang":"ru-en","text":["Sneakers basketball"]}
+            $result = json_decode($result, true); // Преобразуем в массив
+            //print_r($result);
+            $innerText = $result['text'][0]; // Sneakers basketball
+        }
+        return $innerText;
+    }
+
+	public function createSinonimazing(){
 		$innerText = $_SESSION['text'];
 		$innerLang = 'ru';
         /*if(is_null(self::$_instance))

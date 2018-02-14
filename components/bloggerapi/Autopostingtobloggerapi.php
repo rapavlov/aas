@@ -4,6 +4,7 @@ namespace app\components\bloggerapi;
 use Yii;
 use yii\base\Model;
 use app\modules\admin\models\AutoForm;
+use app\components\bloggerapi\CreateSinonimizingString;
 //require_once '@app\vendor\google\apiclient\src\Google\Client.php';
 //use app\vendor\google\apiclient\src\Google;
 
@@ -82,6 +83,8 @@ class Autopostingtobloggerapi extends Model   ///http://spartanets.ru/post/197.h
     ];
     public $text_array_forposting;
     public $redirect_uri;
+    //public $tag_for_delete='a,br,head,script,noscript,meta,style,!-,body,div,font,span,table,tr,td,object,b,pre';
+    public $tag_for_delete='a,br,head,script,noscript,meta,style,!-,object,img,font,body,span,pre,tr,td';
 
     public function create_redirect_uri()
     {
@@ -117,11 +120,38 @@ class Autopostingtobloggerapi extends Model   ///http://spartanets.ru/post/197.h
                  $text_infn = curl_exec($ch); // run the whole process
                 curl_close($ch);
                 $text_infn = mb_convert_encoding($text_infn, "utf-8", "windows-1251");
+                $title = $this->get_title_from_html($text_infn);
+                $text_infn = $this->delete_tags($text_infn, $this->tag_for_delete);
+
                 $text_infn = $this->explode_text_by_tag_p($text_infn);
-                $array_forposting_infn[] = $text_infn;
+                $array_forposting_infn[] = [$text_infn,$title];
+                /*debug($array_forposting_infn);
+                die();*/
             }
         }
         return $array_forposting_infn;
+    }
+
+    private function get_title_from_html($text_infn){
+        $title = substr($text_infn, strpos($text_infn, '<title>' )+7,
+            strpos($text_infn, '</title>' )-strpos($text_infn, '<title>' )+7);
+        return $title;
+    }
+
+    private function delete_tags($text_infn, $tag) {
+        $tags = explode(',', $tag);
+        do {
+            $tag = array_shift($tags);
+            $text_infn=preg_replace("/&nbsp;/",' ', $text_infn);
+            $text_infn=preg_replace("~<($tag)[^>]*>|(?:</(?1)>)|<$tag\s?/?>~x",'', $text_infn);
+        } while (!empty($tags));
+        return $text_infn;
+    }
+
+    private function add_link_to_end_text($text_infn) {
+       // $text_infn = $text_infn." Данный материал получен с сайта <a href='".$this->autoform->dropurl."' title='компания'>компании</a>";
+        $text_infn = $text_infn.' Опубликовано по материалам сайта <a href=' . '"'. $this->autoform->dropurl . '"' . '>компании</a>';
+        return $text_infn;
     }
 
     private function explode_text_by_tag_p($text_infn){
@@ -211,8 +241,7 @@ class Autopostingtobloggerapi extends Model   ///http://spartanets.ru/post/197.h
         $array_words[$random_index] = "<a href='$url'>{$array_words[$random_index]}</a>";
         $_SESSION['text'] = implode(' ', $array_words);*/
 				
-        /*debug($_SESSION['text']);
-        die(0);*/
+
         //debug($post['items']);
         /*
         $blogName  = $blog->getName();
@@ -221,12 +250,27 @@ class Autopostingtobloggerapi extends Model   ///http://spartanets.ru/post/197.h
         $postCount = $postsObj->getTotalItems();
         $posts     = $postsObj->getItems();
         */
-        $service = new \Google_Service_Blogger($client);
-        foreach ($this->text_array_forposting as $text){
+        //$service = new \Google_Service_Blogger($client);
+        /*debug($this->text_array_forposting);
+        die(0);*/
+        foreach ($this->text_array_forposting as $text_p){
+            $text = $text_p[0];
+            $title = $text_p[1];
+
+            $text = preg_replace("/\s{2,}/", "", $text);
+            $text = preg_replace("/\s{2,}/", "", $text);
+            $text = \yii\helpers\StringHelper::truncateWords($text, 350, '...');
+            if ( mb_strlen($text) > 2900) {
+                $text = \yii\helpers\StringHelper::truncate($text, 2900, '...');
+            }
+            $yaTranslate = CreateSinonimizingString::getInstance();
+            $text = $yaTranslate->createSinonimazingForAutoposting($text);
+            $text = $this->add_link_to_end_text($text);
             $postData = new \Google_Service_Blogger_Post();
             //$postData->setTitle($_SESSION['title']);
-            $postData->setTitle($title);
+            $postData->setTitle(strip_tags($title));
             $postData->setContent($text);
+
             /*debug($_SESSION);
             debug($_POST);
             debug($params);
@@ -234,6 +278,7 @@ class Autopostingtobloggerapi extends Model   ///http://spartanets.ru/post/197.h
             debug($new);
             die(0);*/
             $new = $service->posts->insert($this->user_array[$this->autoform->user]['BlogID'], $postData);//1
+            sleep(240);
         }
         /*debug($_SESSION);
         debug($_POST);

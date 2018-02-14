@@ -62,7 +62,7 @@ class AutoForm extends Model
 			'user' => 'Пользователь',
 			'beginparsurl' => 'Базовая часть url для парсинга',
 			'begindiapazon' => 'Начало диапазона парсинга',
-			'enddiapazon' => 'Начало диапазона парсинга',
+			'enddiapazon' => 'Конец диапазона парсинга',
 			'suffiksurl' => 'Суффикс url для парсинга',
 			'dropurl' => 'Выбор url для создания ссылки',
 			'format' => 'Формат диапазона',
